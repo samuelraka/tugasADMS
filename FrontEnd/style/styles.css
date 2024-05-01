@@ -1,0 +1,113 @@
+body {
+    background-image: url("../foto/public.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 50% 50%;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  .container {
+    position: relative;
+  }
+  
+  .navbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Transparan hitam */
+    color: #fff;
+    padding: 15px 0;
+    box-sizing: border-box;
+  }
+  
+  .navbar .nav-buttons {
+    float: right;
+  }
+  
+  .navbar .button {
+    color: #fff;
+    background-color: #555;
+    padding: 10px 20px;
+    margin-left: 10px;
+    text-decoration: none;
+    border-radius: 5px;
+  }
+  
+  .banner {
+    position: relative;
+  }
+  
+  .banner img {
+    width: 100%;
+    height: 750px;
+    display: block;
+  }
+  
+  .logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .logo img {
+        /* Sesuaikan dengan ukuran logo Anda */
+        width: auto;
+        max-width: 100%;
+        height: auto;
+  }
+
+  .about-section {
+    padding: 50px 0; /* Padding untuk jarak atas dan bawah */
+  }
+  
+  .about-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px; /* Maksimum lebar konten */
+    margin: 0 auto; /* Menengahkan konten */
+  }
+  
+  .description {
+    background-color: #fff;
+    overflow: hidden;
+    padding: 0;
+    flex: 0 0 50%;
+    max-width: 50%; /* Maksimum lebar deskripsi */
+  }
+  
+  .description h2 {
+    font-size: 24px; /* Ukuran font judul */
+    color: #333; /* Warna teks judul */
+  }
+  
+  .description p {
+    margin-bottom: 20px; /* Jarak antara paragraf */
+    line-height: 1.6; /* Spasi baris */
+  }
+  
+  .btn {
+    display: inline-block;
+    padding: 10px 20px; /* Padding tombol */
+    background-color: #555; /* Warna latar tombol */
+    color: #fff; /* Warna teks tombol */
+    text-decoration: none; /* Hapus dekorasi teks */
+    border-radius: 5px; /* Border radius tombol */
+  }
+  
+  .food-image {
+    width: 45%; /* Lebar foto makanan */
+    max-width: 400px; /* Maksimum lebar foto makanan */
+  }
+  
+  .food-image img {
+    width: 100%; /* Lebar foto makanan */
+    max-height: 300px; /* Maksimum tinggi foto makanan */
+    display: block; /* Membuat gambar menjadi blok */
+  }
+  
