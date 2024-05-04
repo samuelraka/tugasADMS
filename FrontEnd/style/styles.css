@@ -75,8 +75,10 @@ body {
   
   .description {
     background-color: #fff;
+    margin-left: 8px;
+    border-radius: 10px;
     overflow: hidden;
-    padding: 0;
+    padding: 12px;
     flex: 0 0 50%;
     max-width: 50%; /* Maksimum lebar deskripsi */
   }
@@ -102,12 +104,38 @@ body {
   
   .food-image {
     width: 45%; /* Lebar foto makanan */
-    max-width: 400px; /* Maksimum lebar foto makanan */
+    max-width: 750px; /* Maksimum lebar foto makanan */
   }
   
   .food-image img {
     width: 100%; /* Lebar foto makanan */
-    max-height: 300px; /* Maksimum tinggi foto makanan */
+    max-height: 250px; /* Maksimum tinggi foto makanan */
     display: block; /* Membuat gambar menjadi blok */
   }
+
+  .container {
+    text-align: center;
+  }
+
+  .menu-items {
+    display: flex;
+    flex-wrap: wrap; /* Memungkinkan item menu untuk melompat ke baris baru jika tidak cukup ruang */
+    justify-content: center; /* Menengahkan item menu */
+  }
+  
+  .menu-item {
+    width: calc(33.33% - 20px); /* Lebar setiap item menu (3 kolom), dikurangi dengan margin */
+    margin: 10px; /* Jarak antara item menu */
+    padding: 20px; /* Padding dalam item menu */
+    background-color: #fff; /* Warna latar belakang item menu */
+    border-radius: 10px; /* Border radius item menu */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow item menu */
+  }
+  
+  @media screen and (max-width: 768px) {
+    .menu-item {
+      width: calc(50% - 20px); /* Lebar setiap item menu (2 kolom) saat lebar layar kurang dari 768px */
+    }
+  }
+  
   
