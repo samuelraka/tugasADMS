@@ -1,4 +1,5 @@
 body {
+  background-color: antiquewhite;
     background-image: url("../foto/public.png");
     background-repeat: no-repeat;
     background-size: cover;
@@ -18,7 +19,7 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Transparan hitam */
+    background-color:transparent; /* Transparan hitam */
     color: #fff;
     padding: 15px 0;
     box-sizing: border-box;
@@ -29,12 +30,11 @@ body {
   }
   
   .navbar .button {
-    color: #fff;
-    background-color: #555;
+    color: #373737;
+    background-color: #D3C157;
     padding: 10px 20px;
-    margin-left: 10px;
+    margin-left: 5px;
     text-decoration: none;
-    border-radius: 5px;
   }
   
   .banner {
@@ -42,6 +42,7 @@ body {
   }
   
   .banner img {
+    border-radius: 10px;
     width: 100%;
     height: 750px;
     display: block;
@@ -74,7 +75,7 @@ body {
   }
   
   .description {
-    background-color: #fff;
+    background-color: #FFF2D7;
     margin-left: 8px;
     border-radius: 10px;
     overflow: hidden;
@@ -84,23 +85,33 @@ body {
   }
   
   .description h2 {
+    text-align: left;
     font-size: 24px; /* Ukuran font judul */
     color: #333; /* Warna teks judul */
   }
   
   .description p {
+    text-align: left;
     margin-bottom: 20px; /* Jarak antara paragraf */
     line-height: 1.6; /* Spasi baris */
   }
   
   .btn {
     display: inline-block;
-    padding: 10px 20px; /* Padding tombol */
-    background-color: #555; /* Warna latar tombol */
-    color: #fff; /* Warna teks tombol */
-    text-decoration: none; /* Hapus dekorasi teks */
-    border-radius: 5px; /* Border radius tombol */
+    padding: 10px 20px;
+    background-color: transparent; /* Warna latar belakang hitam */
+    color: black;
+    text-decoration: none;
+    border: 2px solid black; /* Warna border hitam */
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* Efek transisi */
   }
+  
+  .btn:hover {
+    background-color: black; /* Warna latar belakang putih saat hover */
+    border-color: black; /* Warna border putih saat hover */
+    color: white; /* Warna teks hitam saat hover */
+  }  
   
   .food-image {
     width: 45%; /* Lebar foto makanan */
@@ -108,6 +119,7 @@ body {
   }
   
   .food-image img {
+    border-radius: 10px;
     width: 100%; /* Lebar foto makanan */
     max-height: 250px; /* Maksimum tinggi foto makanan */
     display: block; /* Membuat gambar menjadi blok */
@@ -138,4 +150,38 @@ body {
     }
   }
   
+  .footer {
+    margin-top: 50px;
+    background-color: #E4B257; /* Warna latar belakang footer */
+    color: #222; /* Warna teks footer */
+    padding: 75px 0; /* Padding atas dan bawah footer */
+  }
+  
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .footer-logo img {
+    width: 150px; /* Lebar logo footer */
+  }
+  
+  .footer-links ul,
+  .footer-social ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .footer-links ul li,
+  .footer-social ul li {
+    display: inline-block;
+    margin-right: 20px; /* Jarak antara tautan */
+  }
+  
+  .footer-bottom {
+    text-align: center; /* Posisikan teks di tengah */
+    margin-top: 20px; /* Jarak dari konten footer */
+  }
   
