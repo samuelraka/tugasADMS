@@ -6,3 +6,6 @@ const db = new Sequelize('rumahkrs','root','', {
 });
 
 export default db;
+(async()=>{
+    await db.sync();
+})();

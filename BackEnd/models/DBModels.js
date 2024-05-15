@@ -1,8 +1,7 @@
 import { Sequelize } from "sequelize";
 import db from "../config/database.js";
 
-const {DataTypes} = Sequelize;
-
+const {  DataTypes } = Sequelize;
 const Detail_Pesanan = db.define('detail_pesanan', {
     id_detail: {
         type: DataTypes.INTEGER,
@@ -47,13 +46,30 @@ const Menu = db.define('menu', {
         primaryKey: true,
         autoIncrement: true
     },
-    nama_menu: DataTypes.STRING,
-    jenis: DataTypes.STRING,
-    deskripsi: DataTypes.TEXT,
-    harga_pcs: DataTypes.DECIMAL(10,2)
+    nama_menu: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    jenis: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    deskripsi: {
+        type: DataTypes.TEXT,
+        allowNull: false
+    },
+    harga_pcs: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: false
+    },
+    url: {
+        type: DataTypes.STRING,
+        allowNull: false
+    }
 }, {
     freezeTableName: false
 });
+
 
 const Pelanggan = db.define('pelanggan', {
     id_pelanggan: {
@@ -96,6 +112,3 @@ const Transaksi = db.define('transaksi', {
 
 export { Detail_Pesanan, Meja, Menu, Pelanggan, Transaksi };
 
-(async()=>{
-    await db.sync();
-})();

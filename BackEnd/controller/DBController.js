@@ -144,7 +144,7 @@ export const hapusTransaksi = async (req,res) => {
 
 
 // Procedure tambah_detail
-export const tambahDetail = async (id_transaksi, id_menu, kuantitas, harga_total) => {
+export const tambahDetail = async (req,res) => {
     try {
         await Detail_Pesanan.create(req.body);
         res.status(201).json({message: "Pertanyaan Ditambahkan"});
@@ -164,7 +164,7 @@ export const tambahMeja = async (req,res) => {
 };
 
 // Procedure tambah_menu
-export const tambahMenu = async (nama_menu, jenis, deskripsi, harga_pcs) => {
+export const tambahMenu = async (req,res) => {
     try {
         await Menu.create(req.body);
         res.status(201).json({message: "Pertanyaan Ditambahkan"});
@@ -174,7 +174,7 @@ export const tambahMenu = async (nama_menu, jenis, deskripsi, harga_pcs) => {
 };
 
 // Procedure tambah_pelanggan
-export const tambahPelanggan = async (nama_pelanggan, no_telp) => {
+export const tambahPelanggan = async (req,res) => {
     try {
         await Pelanggan.create(req.body);
         res.status(201).json({message: "Pertanyaan Ditambahkan"});
@@ -185,7 +185,7 @@ export const tambahPelanggan = async (nama_pelanggan, no_telp) => {
 };
 
 // Procedure tambah_transaksi
-export const tambahTransaksi = async (id_pelanggan, jumlah_bayar, jenis_pembayaran, jenis_pesanan) => {
+export const tambahTransaksi = async (req,res) => {
     try {
         await Transaksi.create(req.body);
         res.status(201).json({message: "Pertanyaan Ditambahkan"});

@@ -140,16 +140,7 @@ body {
   width: calc(33.33% - 20px); /* Lebar setiap item menu (3 kolom), dikurangi dengan margin */
   margin: 10px; /* Jarak antara item menu */
   padding: 20px; /* Padding dalam item menu */
-  background-color: #fff; /* Warna latar belakang item menu */
-  border-radius: 10px; /* Border radius item menu */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow item menu */
-}
-
-.menu-item {
-  width: calc(33.33% - 20px); /* Lebar setiap item menu (3 kolom), dikurangi dengan margin */
-  margin: 10px; /* Jarak antara item menu */
-  padding: 20px; /* Padding dalam item menu */
-  background-color: #fff2d7; /* Warna latar belakang item menu */
+  background-color: antiquewhite; /* Warna latar belakang item menu */
   border-radius: 10px; /* Border radius item menu */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow item menu */
 }
