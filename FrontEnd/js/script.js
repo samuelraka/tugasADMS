@@ -1,13 +1,3 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Mendapatkan nilai dari localStorage
-    const idPesanan = localStorage.getItem('idPesanan');
-    const jumlahPesan = localStorage.getItem('jumlahPesan');
-  
-    // Menampilkan nilai pada form
-    document.getElementById('id_pesan').value = idPesanan;
-    document.getElementById('jumlah_pesan').value = jumlahPesan;
-  });
-
   document.addEventListener('DOMContentLoaded', function() {
     fetch('http://localhost:3000/menu')
       .then(response => {
@@ -86,3 +76,13 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   const tambahButton = document.getElementById("button-submit");
   tambahButton.addEventListener("click", submitPelanggan);
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // Ambil id_transaksi dari session
+    const idTransaksi = getSessionIdTransaksi();
+
+    // Panggil fungsi untuk menampilkan detail pesanan
+    tampilkanDetailPesanan(idTransaksi);
+});
+
+

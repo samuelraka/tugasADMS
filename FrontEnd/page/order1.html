@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Form Transaksi</title>
+    <link rel="stylesheet" href="../style/order.css">
 </head>
 <body>
     <h1>Form Transaksi</h1>
@@ -146,6 +147,7 @@
                 const data = await response.json();
                 if (response.ok) {
                     alert('Transaksi berhasil ditambahkan');
+                    window.location.href = '../page/detail.html';
                 } else {
                     alert('Error: ' + data.message);
                 }

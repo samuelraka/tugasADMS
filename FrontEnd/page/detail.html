@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Pembelian</title>
+</head>
+<body>
+    <div id="detailPembelianContainer">
+        <!-- Detail pembelian akan ditampilkan di sini -->
+    </div>
+
+    <script></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                // Ambil id_transaksi dari session
+                const idTransaksi = await getSessionIdTransaksi();
+
+                // Jika idTransaksi tidak ditemukan, tampilkan pesan kesalahan
+                if (!idTransaksi) {
+                    document.getElementById('detailPembelianContainer').innerHTML = '<p>Id transaksi tidak ditemukan dalam sesi.</p>';
+                    return;
+                }
+
+                // Panggil fungsi untuk menampilkan detail pesanan
+                const detailPembelian = await tampilkan_detail_pesanan(idTransaksi);
+
+                // Tampilkan detail pembelian di dalam elemen detailPembelianContainer
+                document.getElementById('detailPembelianContainer').innerHTML = '<pre>' + detailPembelian + '</pre>';
+            } catch (error) {
+                console.error('Terjadi kesalahan saat menampilkan detail pesanan:', error);
+                // Tampilkan pesan kesalahan jika terjadi kesalahan saat memuat detail pembelian
+                document.getElementById('detailPembelianContainer').innerHTML = '<p>Terjadi kesalahan saat menampilkan detail pesanan.</p>';
+            }
+        });
+
+        async function getSessionIdTransaksi() {
+            try {
+                const response = await fetch('/get-session-id-transaksi');
+                const data = await response.json();
+                return data.id_transaksi;
+            } catch (error) {
+                console.error('Terjadi kesalahan saat mengambil id_transaksi dari session:', error);
+                return null;
+            }
+        }
+
+        async function tampilkan_detail_pesanan(idTransaksi) {
+            try {
+                const response = await fetch(`/detail-pembelian?id_transaksi=${idTransaksi}`);
+                const data = await response.text();
+                return data;
+            } catch (error) {
+                console.error('Terjadi kesalahan saat menampilkan detail pesanan:', error);
+                throw error;
+            }
+        }
+    </script>
+</body>
+</html>
