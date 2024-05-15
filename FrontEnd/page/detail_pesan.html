@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Website Anda</title>
+  <link rel="stylesheet" href="../style/menu.css">
+</head>
+<body>
+
+    
+  <div class="container">
+    <h2>Form Pesanan</h2>
+    <form id="order-form">
+      <div class="form-group">
+        <label for="id_pesan">ID Pesanan:</label>
+        <input type="text" id="id_pesan" name="id_pesan" value="12345" readonly>
+      </div>
+      <div class="form-group">
+        <label for="jumlah_pesan">Jumlah Pesanan:</label>
+        <input type="number" id="jumlah_pesan" name="jumlah_pesan" value="2">
+      </div>
+      <div class="form-group">
+        <label for="jenis_pembayaran">Jenis Pembayaran:</label>
+        <select id="jenis_pembayaran" name="jenis_pembayaran">
+          <option value="cash">Cash</option>
+          <option value="debit">Debit</option>
+          <option value="kredit">Kredit</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="jenis_pesanan">Jenis Pesanan:</label>
+        <select id="jenis_pesanan" name="jenis_pesanan">
+          <option value="dine_in">Dine in</option>
+          <option value="take_away">Take away</option>
+        </select>
+      </div>
+      <div class="button-group">
+        <button type="submit">Simpan Pesanan</button>
+        <button type="button" id="edit-btn">Edit Pesanan</button>
+        <button type="button" id="delete-btn">Hapus Pesanan</button>
+      </div>
+    </form>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <img src="../foto/logo.png" alt="Logo Footer">
+        </div>
+        <div class="footer-links">
+          <ul>
+            <li><a href="#">Tentang Kami</a></li>
+            <li><a href="#">Menu</a></li>
+            <li><a href="#">Kontak</a></li>
+          </ul>
+        </div>
+        <div class="footer-social">
+          <ul>
+            <li><a href="#"><img src="../foto/facebook.png" alt="Facebook"></a></li>
+            <li><a href="#"><img src="../foto/twitter.png" alt="Twitter"></a></li>
+            <li><a href="#"><img src="../foto/instagra.png" alt="Instagram"></a></li> <!-- Perbaikan nama file Instagram -->
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>Hak Cipta &copy; 2024 Restoran Anda. Semua Hak Dilindungi.</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
