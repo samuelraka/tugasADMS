@@ -152,10 +152,12 @@ body {
 }
 
 .menu-item h3{
+  text-decoration: none;
   color: #000000;
 }
 
 .menu-item p{
+  text-decoration: none;
   color: #000000;
 }
 

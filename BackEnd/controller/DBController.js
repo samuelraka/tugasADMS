@@ -174,23 +174,54 @@ export const tambahMenu = async (req,res) => {
 };
 
 // Procedure tambah_pelanggan
-export const tambahPelanggan = async (req,res) => {
+export const tambahPelanggan = async (req, res) => {
     try {
-        await Pelanggan.create(req.body);
-        res.status(201).json({message: "Pertanyaan Ditambahkan"});
-    } catch (error) {
-        console.log(error.message);
-    }
+        const { nama_pelanggan, no_telp } = req.body;
+        const newPelanggan = await Pelanggan.create({ nama_pelanggan, no_telp });
+
+        // Pastikan req.session sudah diinisialisasi
+        req.session = req.session || {};
         
+        // Simpan ID pelanggan dalam sesi
+        req.session.pelangganId = newPelanggan.id_pelanggan;
+
+        res.status(201).json(newPelanggan);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 };
 
 // Procedure tambah_transaksi
-export const tambahTransaksi = async (req,res) => {
+export const tambahTransaksi = async (req, res) => {
+    if (!req.session.pelangganId) {
+        return res.status(401).json({ message: 'Pelanggan belum mendaftar atau login' });
+    }
+
     try {
-        await Transaksi.create(req.body);
-        res.status(201).json({message: "Pertanyaan Ditambahkan"});
+        const { jumlah_bayar, jenis_pembayaran, jenis_pesanan, id_meja, detail_pesanan } = req.body;
+        const newTransaksi = await Transaksi.create({
+            id_pelanggan: req.session.pelangganId,
+            jumlah_bayar,
+            jenis_pembayaran,
+            jenis_pesanan,
+            id_meja
+        });
+
+        if (detail_pesanan && detail_pesanan.length > 0) {
+            const detailPromises = detail_pesanan.map(detail => {
+                return Detail_Pesanan.create({
+                    id_transaksi: newTransaksi.id_transaksi,
+                    id_menu: detail.id_menu,
+                    kuantitas: detail.kuantitas,
+                    harga_total: detail.harga_total
+                });
+            });
+            await Promise.all(detailPromises);
+        }
+
+        res.status(201).json(newTransaksi);
     } catch (error) {
-        console.log(error.message);
+        res.status(500).json({ message: error.message });
     }
 };
 

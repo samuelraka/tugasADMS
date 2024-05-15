@@ -10,14 +10,14 @@ const Detail_Pesanan = db.define('detail_pesanan', {
     },
     id_transaksi: {
         type: DataTypes.INTEGER,
-        refereces: {
+        references: {
             model: 'transaksi',
             key: 'id_transaksi'
         }
     },
     id_menu: {
         type: DataTypes.INTEGER,
-        refereces: {
+        references: {
             model: 'menu',
             key: 'id_menu'
         }
@@ -91,7 +91,7 @@ const Transaksi = db.define('transaksi', {
     },
     id_pelanggan: {
         type: DataTypes.INTEGER,
-        refereces: {
+        references: {
             model: 'pelanggan',
             key: 'id_pelanggan'
         }
@@ -101,7 +101,7 @@ const Transaksi = db.define('transaksi', {
     jenis_pesanan: DataTypes.ENUM('Dine In','Take Away'),
     id_meja: {
         type: DataTypes.INTEGER,
-        refereces: {
+        references: {
             model: 'meja',
             key: 'id_meja'
         }
@@ -112,3 +112,6 @@ const Transaksi = db.define('transaksi', {
 
 export { Detail_Pesanan, Meja, Menu, Pelanggan, Transaksi };
 
+(async()=>{
+    await db.sync();
+})();

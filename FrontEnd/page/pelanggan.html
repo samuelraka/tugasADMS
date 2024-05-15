@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detail Pemesanan</title>
+  <link rel="stylesheet" href="../style/styles.css">
+</head>
+<body>
+  <section class="order-section">
+    <div class="box">
+      <h2>Pendaftaran Pelanggan</h2>
+      <form id="order-form" method="POST" action="http://localhost:3000/tambahPelanggan">
+        <label for="nama">Nama:</label>
+        <input id="nama" type="text" name="nama_pelanggan" placeholder="Nama Anda" required>
+        <label for="no_telp">Nomor Telepon:</label>
+        <input id="no_telp" type="text" name="no_telp" placeholder="Nomor Telepon Anda" required>
+        <button id= "button-submit" type="submit" class="button">Pesan Sekarang</button>
+      </form>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <img src="../foto/logo.png" alt="Logo Footer">
+        </div>
+        <div class="footer-links">
+          <ul>
+            <li><a href="#">Tentang Kami</a></li>
+            <li><a href="#">Menu</a></li>
+            <li><a href="#">Kontak</a></li>
+          </ul>
+        </div>
+        <div class="footer-social">
+          <ul>
+            <li><a href="#"><img src="../foto/facebook.png" alt="Facebook"></a></li>
+            <li><a href="#"><img src="../foto/twitter.png" alt="Twitter"></a></li>
+            <li><a href="#"><img src="../foto/instagra.png" alt="Instagram"></a></li> <!-- Perbaikan nama file Instagram -->
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>Hak Cipta &copy; 2024 Restoran Anda. Semua Hak Dilindungi.</p>
+      </div>
+    </div>
+  </footer>
+  
+  <script src="../js/script.js"></script>
+</body>
+</html>
