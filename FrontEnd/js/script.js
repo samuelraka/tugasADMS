@@ -30,52 +30,48 @@
   
   document.addEventListener("DOMContentLoaded", () => {
     const formPertanyaan = document.getElementById("order-form");
-  });
-  
-  function submitPelanggan() {
+});
+
+function submitPelanggan() {
     const namaInput = document.getElementById("nama").value;
     const telpInput = document.getElementById("no_telp").value;
     const submitButton = document.getElementById("button-submit");
-  
-    // Nonaktifkan tombol setelah diklik
+
     submitButton.disabled = true;
-  
+
     const formDaftar = {
-      nama_pelanggan: namaInput,
-      no_telp: telpInput,
+        nama_pelanggan: namaInput,
+        no_telp: telpInput,
     };
-  
+
     fetch("http://localhost:3000/tambahPelanggan", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formDaftar),
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formDaftar),
     })
-      .then((response) => response.json())
-      .then((data) => {
-        // Tangani respons dari server di sini, jika diperlukan
-        const formPelanggan = document.getElementById("order-form");
-        formPelanggan.style.display = "none";
+    .then((response) => response.json())
+    .then((data) => {
+        if (!data.id_pelanggan) {
+            throw new Error('Pendaftaran gagal');
+        }
         alert("Pendaftaran berhasil");
-  
+
         window.location.href = "../page/order1.html";
-  
-        // Aktifkan kembali tombol setelah pengiriman selesai
-        submitButton.disabled = false;
-      })
-      .catch((error) => {
+    })
+    .catch((error) => {
         console.error("Terjadi kesalahan:", error);
         alert("Terjadi kesalahan saat mendaftar.");
-  
-        // Aktifkan kembali tombol setelah terjadi kesalahan
         submitButton.disabled = false;
-      });
-    
-    return false; // Mencegah perilaku default tombol "Kirim Pertanyaan"
-  }
-  const tambahButton = document.getElementById("button-submit");
-  tambahButton.addEventListener("click", submitPelanggan);
+    });
+
+    return false;
+}
+
+const tambahButton = document.getElementById("button-submit");
+tambahButton.addEventListener("click", submitPelanggan);
+
 
   document.addEventListener('DOMContentLoaded', () => {
     // Ambil id_transaksi dari session

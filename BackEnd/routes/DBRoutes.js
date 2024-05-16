@@ -56,6 +56,14 @@ router.delete('/hapusTransaksi/:id_transaksi', hapusTransaksi);
 router.post('/tambahMeja', tambahMeja);
 router.post('/tambahMenu', tambahMenu);
 router.post('/tambahPelanggan', tambahPelanggan);
-router.post('/tambahTransaksi', tambahTransaksi);
+const cekSesiPelanggan = (req, res, next) => {
+    if (!req.session.pelangganId) {
+        return res.status(401).json({ message: 'Pelanggan belum mendaftar atau login' });
+    }
+    next();
+};
+
+router.post('/tambahTransaksi', cekSesiPelanggan, tambahTransaksi);
+
 
 export default router;

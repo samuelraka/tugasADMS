@@ -41,117 +41,136 @@
             let totalBayar = 0;
             let selectedMenus = [];
 
-            // Fetch menu data
-            const menuResponse = await fetch('http://localhost:3000/menu');
-            const menuData = await menuResponse.json();
-
-            menuData.forEach(menu => {
-                const menuDiv = document.createElement('div');
-                menuDiv.innerHTML = `
-                    <input type="checkbox" id="menu_${menu.id_menu}" data-price="${menu.harga_pcs}" value="${menu.id_menu}">
-                    <label for="menu_${menu.id_menu}">${menu.nama_menu} - ${menu.harga_pcs}</label>
-                    <input type="number" id="quantity_${menu.id_menu}" min="1" value="1" style="width: 50px;" disabled>
-                `;
-                menuContainer.appendChild(menuDiv);
-
-                const menuCheckbox = menuDiv.querySelector(`#menu_${menu.id_menu}`);
-                const quantityInput = menuDiv.querySelector(`#quantity_${menu.id_menu}`);
-
-                menuCheckbox.addEventListener('change', (event) => {
-                    const price = parseFloat(event.target.dataset.price);
-                    const quantity = parseInt(quantityInput.value);
-
-                    if (event.target.checked) {
-                        quantityInput.disabled = false;
-                        totalBayar += price * quantity;
-                        selectedMenus.push({ id_menu: menu.id_menu, kuantitas: quantity, harga_total: price * quantity });
-                    } else {
-                        quantityInput.disabled = true;
-                        totalBayar -= price * quantity;
-                        selectedMenus = selectedMenus.filter(item => item.id_menu !== menu.id_menu);
-                    }
-                    totalBayarElem.textContent = totalBayar.toFixed(2);
-                });
-
-                quantityInput.addEventListener('input', (event) => {
-                    const price = parseFloat(menuCheckbox.dataset.price);
-                    const quantity = parseInt(event.target.value);
-                    const selectedItem = selectedMenus.find(item => item.id_menu === menu.id_menu);
-
-                    if (selectedItem) {
-                        totalBayar -= selectedItem.harga_total;
-                        selectedItem.kuantitas = quantity;
-                        selectedItem.harga_total = price * quantity;
-                        totalBayar += selectedItem.harga_total;
-                        totalBayarElem.textContent = totalBayar.toFixed(2);
-                    }
-                });
-            });
-
-            jenisPesananSelect.addEventListener('change', async (event) => {
-                if (event.target.value === 'Dine In') {
-                    mejaContainer.style.display = 'block';
-
-                    // Fetch meja data
-                    const mejaResponse = await fetch('http://localhost:3000/meja');
-                    const mejaData = await mejaResponse.json();
-                    mejaList.innerHTML = '';
-
-                    mejaData.forEach(meja => {
-                        const mejaDiv = document.createElement('div');
-                        mejaDiv.innerHTML = `
-                            <button type="button" class="mejaBtn" data-id="${meja.id_meja}" data-status="${meja.status}">
-                                Meja ${meja.nomor_meja} - ${meja.status}
-                            </button>
-                        `;
-                        mejaList.appendChild(mejaDiv);
-
-                        const mejaBtn = mejaDiv.querySelector('.mejaBtn');
-                        mejaBtn.addEventListener('click', () => {
-                            if (meja.status === 'tidak tersedia') {
-                                alert('Meja tidak tersedia');
-                            } else {
-                                document.querySelectorAll('.mejaBtn').forEach(btn => btn.disabled = false);
-                                mejaBtn.disabled = true;
-                                mejaBtn.dataset.selected = true;
-                            }
-                        });
-                    });
-                } else {
-                    mejaContainer.style.display = 'none';
-                  }
-            });
-
-            document.getElementById('transactionForm').addEventListener('submit', async function(event) {
-                event.preventDefault();
-
-                const jenis_pembayaran = document.getElementById('jenis_pembayaran').value;
-                const jenis_pesanan = document.getElementById('jenis_pesanan').value;
-                const selectedMejaBtn = document.querySelector('.mejaBtn[data-selected="true"]');
-                const id_meja = selectedMejaBtn ? selectedMejaBtn.dataset.id : null;
-
-                const response = await fetch('http://localhost:3000/tambahTransaksi', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        jumlah_bayar: totalBayar,
-                        jenis_pembayaran,
-                        jenis_pesanan,
-                        id_meja,
-                        detail_pesanan: selectedMenus
-                    })
-                });
-
-                const data = await response.json();
-                if (response.ok) {
-                    alert('Transaksi berhasil ditambahkan');
-                    window.location.href = '../page/detail.html';
-                } else {
-                    alert('Error: ' + data.message);
+            try {
+                // Fetch menu data
+                const menuResponse = await fetch('http://localhost:3000/menu');
+                if (!menuResponse.ok) {
+                    throw new Error('Gagal mengambil data menu');
                 }
-            });
+                const menuData = await menuResponse.json();
+
+                menuData.forEach(menu => {
+                    const menuDiv = document.createElement('div');
+                    menuDiv.innerHTML = `
+                        <input type="checkbox" id="menu_${menu.id_menu}" data-price="${menu.harga_pcs}" value="${menu.id_menu}">
+                        <label for="menu_${menu.id_menu}">${menu.nama_menu} - Rp ${menu.harga_pcs}</label>
+                        <input type="number" id="quantity_${menu.id_menu}" min="1" value="1" style="width: 50px;" disabled>
+                    `;
+                    menuContainer.appendChild(menuDiv);
+
+                    const menuCheckbox = menuDiv.querySelector(`#menu_${menu.id_menu}`);
+                    const quantityInput = menuDiv.querySelector(`#quantity_${menu.id_menu}`);
+
+                    menuCheckbox.addEventListener('change', (event) => {
+                        const price = parseFloat(event.target.dataset.price);
+                        const quantity = parseInt(quantityInput.value);
+
+                        if (event.target.checked) {
+                            quantityInput.disabled = false;
+                            totalBayar += price * quantity;
+                            selectedMenus.push({ id_menu: menu.id_menu, kuantitas: quantity, harga_total: price * quantity });
+                        } else {
+                            quantityInput.disabled = true;
+                            totalBayar -= price * quantity;
+                            selectedMenus = selectedMenus.filter(item => item.id_menu !== menu.id_menu);
+                        }
+                        totalBayarElem.textContent = totalBayar.toFixed(2);
+                    });
+
+                    quantityInput.addEventListener('input', (event) => {
+                        const price = parseFloat(menuCheckbox.dataset.price);
+                        const quantity = parseInt(event.target.value);
+                        const selectedItem = selectedMenus.find(item => item.id_menu === menu.id_menu);
+
+                        if (selectedItem) {
+                            totalBayar -= selectedItem.harga_total;
+                            selectedItem.kuantitas = quantity;
+                            selectedItem.harga_total = price * quantity;
+                            totalBayar += selectedItem.harga_total;
+                            totalBayarElem.textContent = totalBayar.toFixed(2);
+                        }
+                    });
+                });
+
+                jenisPesananSelect.addEventListener('change', async (event) => {
+                    if (event.target.value === 'Dine In') {
+                        mejaContainer.style.display = 'block';
+
+                        // Fetch meja data
+                        const mejaResponse = await fetch('http://localhost:3000/meja');
+                        if (!mejaResponse.ok) {
+                            throw new Error('Gagal mengambil data meja');
+                        }
+                        const mejaData = await mejaResponse.json();
+                        mejaList.innerHTML = '';
+
+                        mejaData.forEach(meja => {
+                            const mejaDiv = document.createElement('div');
+                            mejaDiv.innerHTML = `
+                                <button type="button" class="mejaBtn" data-id="${meja.id_meja}" data-status="${meja.status}">
+                                    Meja ${meja.nomor_meja} - ${meja.status}
+                                </button>
+                            `;
+                            mejaList.appendChild(mejaDiv);
+
+                            const mejaBtn = mejaDiv.querySelector('.mejaBtn');
+                            mejaBtn.addEventListener('click', () => {
+                                if (meja.status === 'tidak tersedia') {
+                                    alert('Meja tidak tersedia');
+                                } else {
+                                    document.querySelectorAll('.mejaBtn').forEach(btn => {
+                                        btn.disabled = false;
+                                        btn.dataset.selected = false;
+                                    });
+                                    mejaBtn.disabled = true;
+                                    mejaBtn.dataset.selected = true;
+                                }
+                            });
+                        });
+                    } else {
+                        mejaContainer.style.display = 'none';
+                    }
+                });
+
+                document.getElementById('transactionForm').addEventListener('submit', async function(event) {
+                    event.preventDefault();
+
+                    const jenis_pembayaran = document.getElementById('jenis_pembayaran').value;
+                    const jenis_pesanan = document.getElementById('jenis_pesanan').value;
+                    const selectedMejaBtn = document.querySelector('.mejaBtn[data-selected="true"]');
+                    const id_meja = selectedMejaBtn ? selectedMejaBtn.dataset.id : null;
+
+                    try {
+                        const response = await fetch('http://localhost:3000/tambahTransaksi', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                jumlah_bayar: totalBayar,
+                                jenis_pembayaran,
+                                jenis_pesanan,
+                                id_meja,
+                                detail_pesanan: selectedMenus
+                            })
+                        });
+
+                        const data = await response.json();
+                        if (response.ok) {
+                            alert('Transaksi berhasil ditambahkan');
+                            window.location.href = '../page/detail.html';
+                        } else {
+                            alert('Error: ' + data.message);
+                        }
+                    } catch (error) {
+                        alert('Error: ' + error.message);
+                    }
+                });
+
+            } catch (error) {
+                console.error('Error:', error.message);
+                alert('Error: ' + error.message);
+            }
         });
     </script>
 </body>

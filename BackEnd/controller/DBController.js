@@ -174,25 +174,23 @@ export const tambahMenu = async (req,res) => {
 };
 
 // Procedure tambah_pelanggan
+
 export const tambahPelanggan = async (req, res) => {
     try {
         const { nama_pelanggan, no_telp } = req.body;
         const newPelanggan = await Pelanggan.create({ nama_pelanggan, no_telp });
 
-        // Pastikan req.session sudah diinisialisasi
-        req.session = req.session || {};
-        
-        // Simpan ID pelanggan dalam sesi
         req.session.pelangganId = newPelanggan.id_pelanggan;
-
         res.status(201).json(newPelanggan);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
 
+
 // Procedure tambah_transaksi
 export const tambahTransaksi = async (req, res) => {
+    console.log('Session:', req.session);  // Tambahkan log ini untuk debugging
     if (!req.session.pelangganId) {
         return res.status(401).json({ message: 'Pelanggan belum mendaftar atau login' });
     }
@@ -206,9 +204,6 @@ export const tambahTransaksi = async (req, res) => {
             jenis_pesanan,
             id_meja
         });
-
-        // Simpan ID transaksi baru ke dalam sesi
-        req.session.id_transaksi = newTransaksi.id_transaksi;
 
         if (detail_pesanan && detail_pesanan.length > 0) {
             const detailPromises = detail_pesanan.map(detail => {
@@ -227,6 +222,7 @@ export const tambahTransaksi = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
 
 export const getSessionIdTransaksi = (req, res) => {
     try {
