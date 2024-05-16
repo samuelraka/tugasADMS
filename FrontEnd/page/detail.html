@@ -10,52 +10,66 @@
         <!-- Detail pembelian akan ditampilkan di sini -->
     </div>
 
-    <script></script>
     <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-            try {
-                // Ambil id_transaksi dari session
-                const idTransaksi = await getSessionIdTransaksi();
+    async function getSessionIdTransaksi() {
+        try {
+            const response = await fetch('http://localhost:3000/get-session-id-transaksi');
+            const data = await response.json();
+            return data.id_transaksi;
+        } catch (error) {
+            console.error('Terjadi kesalahan saat mengambil id_transaksi dari session:', error);
+            return null;
+        }
+    }
 
-                // Jika idTransaksi tidak ditemukan, tampilkan pesan kesalahan
-                if (!idTransaksi) {
-                    document.getElementById('detailPembelianContainer').innerHTML = '<p>Id transaksi tidak ditemukan dalam sesi.</p>';
-                    return;
-                }
-
-                // Panggil fungsi untuk menampilkan detail pesanan
-                const detailPembelian = await tampilkan_detail_pesanan(idTransaksi);
-
-                // Tampilkan detail pembelian di dalam elemen detailPembelianContainer
-                document.getElementById('detailPembelianContainer').innerHTML = '<pre>' + detailPembelian + '</pre>';
-            } catch (error) {
-                console.error('Terjadi kesalahan saat menampilkan detail pesanan:', error);
-                // Tampilkan pesan kesalahan jika terjadi kesalahan saat memuat detail pembelian
-                document.getElementById('detailPembelianContainer').innerHTML = '<p>Terjadi kesalahan saat menampilkan detail pesanan.</p>';
+    async function tampilkan_detail_pesanan(idTransaksi) {
+        try {
+            const response = await fetch(`http://localhost:3000/detail-pembelian?id_transaksi=${idTransaksi}`);
+            const data = await response.text();
+            return data;
+        } catch (error) {
+            console.error('Terjadi kesalahan saat menampilkan detail pesanan:', error);
+            throw error;
+        }
+    }
+    const tampilkanDetailPembelian = (idTransaksi) => {
+    return new Promise((resolve, reject) => {
+        // Panggil fungsi tampilkan_detail_pembelian dari database
+        const query = `CALL tampilkan_detail_pembelian(${idTransaksi})`;
+        connection.query(query, (error, results, fields) => {
+            if (error) {
+                reject(error);
+            } else {
+                // Dapatkan hasil dari fungsi
+                const detailPembelian = results[0][0]; // Fungsi menghasilkan satu baris satu kolom
+                resolve(detailPembelian);
             }
         });
+    });
+};
 
-        async function getSessionIdTransaksi() {
-            try {
-                const response = await fetch('/get-session-id-transaksi');
-                const data = await response.json();
-                return data.id_transaksi;
-            } catch (error) {
-                console.error('Terjadi kesalahan saat mengambil id_transaksi dari session:', error);
-                return null;
-            }
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        // Ambil id_transaksi dari session
+        const idTransaksi = await getSessionIdTransaksi();
+
+        // Jika idTransaksi tidak ditemukan, tampilkan pesan kesalahan
+        if (!idTransaksi) {
+            document.getElementById('detailPembelianContainer').innerHTML = '<p>Id transaksi tidak ditemukan dalam sesi.</p>';
+            return;
         }
 
-        async function tampilkan_detail_pesanan(idTransaksi) {
-            try {
-                const response = await fetch(`/detail-pembelian?id_transaksi=${idTransaksi}`);
-                const data = await response.text();
-                return data;
-            } catch (error) {
-                console.error('Terjadi kesalahan saat menampilkan detail pesanan:', error);
-                throw error;
-            }
-        }
+        // Panggil fungsi untuk menampilkan detail pembelian
+        const detailPembelian = await tampilkan_detail_pesanan(idTransaksi);
+
+        // Tampilkan detail pembelian di dalam elemen detailPembelianContainer
+        document.getElementById('detailPembelianContainer').innerHTML = '<pre>' + detailPembelian + '</pre>';
+    } catch (error) {
+        console.error('Terjadi kesalahan saat menampilkan detail pesanan:', error);
+        // Tampilkan pesan kesalahan jika terjadi kesalahan saat memuat detail pembelian
+        document.getElementById('detailPembelianContainer').innerHTML = '<p>Terjadi kesalahan saat menampilkan detail pesanan.</p>';
+    }
+});
     </script>
 </body>
 </html>

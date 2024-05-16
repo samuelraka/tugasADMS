@@ -205,6 +205,8 @@ export const tambahTransaksi = async (req, res) => {
             id_meja
         });
 
+        req.session.id_transaksi = newTransaksi.id_transaksi;
+
         if (detail_pesanan && detail_pesanan.length > 0) {
             const detailPromises = detail_pesanan.map(detail => {
                 return Detail_Pesanan.create({
@@ -238,16 +240,19 @@ export const getSessionIdTransaksi = (req, res) => {
 export const tampilkan_detail_pembelian = async (id_transaksi) => {
     try {
         // Jalankan query untuk mengambil detail pembelian
-        const [rows, fields] = await db.query(
-            `SELECT CONCAT('Nama Pelanggan: ', PELANGGANS.nama_pelanggan, '\n',
+        const query = `
+        DECLARE output TEXT DEFAULT '';
+            SELECT CONCAT('Nama Pelanggan: ', PELANGGANS.nama_pelanggan, '\n',
                             'Menu yang Dibeli: ', 
                             GROUP_CONCAT(
                                 CONCAT(
                                     MENUS.nama_menu, ' (', 
                                     DETAIL_PESANANS.kuantitas, ' pcs)'
-                                ) SEPARATOR ', '), 
+                                ) SEPARATOR ', '
+                            ), 
                             '\n',
-                            'Total Bayar: Rp ', SUM(DETAIL_PESANANS.harga_total)) AS output
+                            'Total Bayar: Rp ', SUM(DETAIL_PESANANS.harga_total)) 
+            INTO output
             FROM TRANSAKSIS
             JOIN PELANGGANS ON TRANSAKSIS.id_pelanggan = PELANGGANS.id_pelanggan
             JOIN (
@@ -257,12 +262,14 @@ export const tampilkan_detail_pembelian = async (id_transaksi) => {
             ) AS DETAIL_PESANANS ON TRANSAKSIS.id_transaksi = DETAIL_PESANANS.id_transaksi
             JOIN MENUS ON DETAIL_PESANANS.id_menu = MENUS.id_menu
             WHERE TRANSAKSIS.id_transaksi = ?
-            GROUP BY TRANSAKSIS.id_transaksi, PELANGGANS.nama_pelanggan;`,
-            [id_transaksi]
-        );
+            GROUP BY TRANSAKSIS.id_transaksi, PELANGGANS.nama_pelanggan
+        `;
+        
+        // Eksekusi kueri SQL
+        const [rows, fields] = await db.query(query, [id_transaksi]);
 
         // Ambil nilai output dari baris pertama hasil query
-        const output = rows[0].output;
+        const output = rows[0]?.output;
 
         // Parsing string output ke dalam format JSON
         const detailPembelian = JSON.parse(output);
@@ -273,7 +280,6 @@ export const tampilkan_detail_pembelian = async (id_transaksi) => {
         throw new Error(error.message);
     }
 };
-
 
 
 // Buat trigger untuk menghitung total bayar setelah setiap operasi INSERT pada tabel detail_pesanan
